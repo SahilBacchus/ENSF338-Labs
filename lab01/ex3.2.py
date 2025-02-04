@@ -11,8 +11,8 @@ with open('lab01/lab_data/large-file.json', 'r', encoding='UTF-8') as infile:
 def change_size(data, size=42, num_records=10000):
     records = num_records
     for record in data: 
-        if 'size' in record: 
-            record['size'] = size
+        if 'payload' in record and 'size' in record['payload']: 
+            record['payload']['size'] = 42
         if records == 0: 
             break
         records -= 1
