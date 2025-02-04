@@ -3,7 +3,7 @@ import json
 import numpy as np 
 from matplotlib import pyplot as plt
 
-with open('lab_data/large-file.json', 'r', encoding='UTF-8') as infile: 
+with open('lab01/lab_data/large-file.json', 'r', encoding='UTF-8') as infile: 
     data = json.load(infile)
 
 
@@ -29,11 +29,13 @@ for num in num_records:
     avg_times.append(time_to_change)
     print(f"time to change: {time_to_change}")
 
+
+# Do linear regression to show how time scales with record count 
 slope, intercept = np.polyfit(num_records, avg_times, 1)
 plt.scatter(num_records, avg_times)
 linevalues = [slope * x + intercept for x in num_records]
 plt.plot(num_records, linevalues, 'r')
-plt.savefig('output.3.2.png')
+plt.savefig('lab01/output.3.2.png')
 
 infile.close()
 
