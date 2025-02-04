@@ -8,8 +8,8 @@ with open('lab_data/large-file.json', 'r', encoding='UTF-8') as infile:
 
 def change_size(data, size=42):
     for record in data: 
-        if 'size' in record: 
-            record['size'] = size
+        if 'payload' in record and 'size' in record['payload']: 
+            record['payload']['size'] = size
 
 change_size(data)
 

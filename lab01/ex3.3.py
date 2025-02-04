@@ -12,7 +12,7 @@ def change_size(data, size=42, num_records=10000):
     records = num_records
     for record in data: 
         if 'payload' in record and 'size' in record['payload']: 
-            record['payload']['size'] = 42
+            record['payload']['size'] = size
         if records == 0: 
             break
         records -= 1
