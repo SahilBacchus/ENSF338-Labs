@@ -2,78 +2,54 @@ import sys
 import json
 import matplotlib.pyplot as plt
 import timeit
-import random
 
-sys.setrecursionlimit(20000)
+sys.setrecursionlimit(2000)
 
-
-with open('lab03/lab_data/ex7data.json', 'r', encoding='UTF-8') as infile: 
+with open('lab03/lab_data/ex7data.json', 'r', encoding='UTF-8') as infile:
     data = json.load(infile)
 
-
-
-def binarySearch(arr, first, last, key):
-    if (first <= last):
-        mid = (first + last) // 2 
-        
-        if arr[mid] == key:
-            return mid
-        
-        elif key < arr[mid]:
-            return binarySearch(arr, first, mid - 1, key)
-        
-        else:
-            return binarySearch(arr, mid + 1, last, key)
-    
-    return -1
-
+with open('lab03/lab_data/ex7tasks.json', 'r', encoding='UTF-8') as infile:
+    search_tasks = json.load(infile)
 
 def binarySearchConfig(arr, first, last, key, mid):
-    if (first <= last):
-        #mid = input("Enter midpoint for first iteration:")
-        
+    if first <= last:
         if arr[mid] == key:
             return mid
-        
         elif key < arr[mid]:
-            return binarySearch(arr, first, mid - 1, key)
-        
+            return binarySearchConfig(arr, first, mid - 1, key, (first + mid - 1) // 2)
         else:
-            return binarySearch(arr, mid + 1, last, key)
-    
-    return -1
+            return binarySearchConfig(arr, mid + 1, last, key, (mid + 1 + last) // 2)
+    return -1  # Not found
 
 def timerForBinSearch(arr, last, key, mid):
     timer = timeit.Timer(lambda: binarySearchConfig(arr, 0, last, key, mid))
-    time = timer.timeit(number=1)
-    return time
+    return timer.timeit(number=1)
+
 
 time_results = []
 midpoints = []
+last_index = len(data) - 1
 
-for i in range(0, len(data), 1000):   
-    key = random.randint(0, 999998)
-    time_taken = timerForBinSearch(data, len(data) - 1, key, i)
-    if(time_taken < 0.00001):
-        midpoints.append(i)
-        time_results.append(time_taken)
+for key in search_tasks[:100]:
+    best_time = float("inf")
+    best_mid = None
 
+    for i in range(0, len(data), 1000):  
+        time_taken = timerForBinSearch(data, last_index, key, i)
+
+        if time_taken < best_time:
+            best_time = time_taken
+            best_mid = i
+
+    midpoints.append(best_mid)
+    time_results.append(best_time)
 
 plt.figure(figsize=(10, 6))
-plt.scatter(midpoints, time_results, color='blue', label='Search Time')
-plt.xlabel('Initial Midpoint')
-plt.ylabel('Search Time (seconds)')
+plt.scatter(search_tasks[:100], midpoints, color='blue', label='Best Initial Midpoint')
+plt.xlabel('Search Task (Target Number)')
+plt.ylabel('Best Initial Midpoint')
 plt.title('Effect of Initial Midpoint on Binary Search Performance')
 plt.grid(True)
+plt.legend()
 plt.savefig('lab03/output_5.png')
 plt.show()
-
-
-
-
-
-infile.close()
-
-
-
-
