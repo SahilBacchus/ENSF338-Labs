@@ -9,7 +9,8 @@ Note: Use this to change to the proper directory if it doesn't
 
 import os
 print("Current Working Directory:", os.getcwd())
-os.chdir('C:/ENSF338/ENSF338-Labs')"""
+script_dir = os.path.dirname(os.path.abspath(__file__))
+os.chdir(script_dir)"""
 
 
 def bubble_sort(arr):
@@ -36,7 +37,7 @@ for size in sizes:#Iterating through sizes 10 to 500
 
 
 #Plotting
-comp_fit = np.polyfit(sizes, comp_counts, 2)
+comp_fit = np.polyfit(sizes, comp_counts, 2)#fitting
 swap_fit = np.polyfit(sizes, swap_counts, 2)
 
 plt.figure(figsize=(12, 5))

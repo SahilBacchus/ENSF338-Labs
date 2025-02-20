@@ -10,7 +10,8 @@ Note: Use this to change to the proper directory if it doesn't
 
 import os
 print("Current Working Directory:", os.getcwd())
-os.chdir('C:/ENSF338/ENSF338-Labs')"""
+script_dir = os.path.dirname(os.path.abspath(__file__))
+os.chdir(script_dir)"""
 
 sys.setrecursionlimit(20000)
 
@@ -43,12 +44,12 @@ times = []
 
 for n in sizes:
     worst_case_input = list(range(n, 0, -1))#Creates list of deincrementing values
-    start_time = time.time()
+    start_time = time.time()#timing
     quicksort(worst_case_input, 0, len(worst_case_input)-1)
     end_time = time.time()
     times.append(end_time - start_time)
 
-time_fit = np.polyfit(sizes, times, 2)
+time_fit = np.polyfit(sizes, times, 2)#fitting
 
 plt.figure(figsize=(10, 5))
 plt.scatter(sizes, times, label='Measured Time')
