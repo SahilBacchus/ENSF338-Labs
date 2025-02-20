@@ -58,7 +58,7 @@ plt.xlabel('Input Size')
 plt.ylabel('# Swaps')
 plt.legend()
 plt.title('Bubble Sort Swaps')
-plt.savefig('lab03/Comparison_Swaps.png')
+#plt.savefig('Comparison_Swaps.png')
 
 
 plt.tight_layout()

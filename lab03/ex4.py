@@ -21,7 +21,7 @@ def quicksort(arr, low, high):
         quicksort(arr, pivot_index + 1, high)
 
 def partition(arr, low, high): 
-    pivot = arr[low] 
+    pivot = arr[low] #Pivot is not middle or median of three to show worst-case
     left = low + 1 
     right = high 
     done = False 
@@ -29,7 +29,7 @@ def partition(arr, low, high):
         while left <= right and arr[left] <= pivot: 
             left = left + 1 
         while arr[right] >= pivot and right >=left: 
-            right = right -1 
+            right = right - 1 
         if right <left: 
             done= True 
         else: 
@@ -54,5 +54,5 @@ plt.ylabel('Execution Time (seconds)')
 plt.title('Quicksort Worst-Case Complexity')
 plt.legend()
 plt.show()
-#plt.savefig('lab03/Comparison_Swaps.png')
+#plt.savefig('Quicksort.png')
 
