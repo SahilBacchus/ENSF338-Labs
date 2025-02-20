@@ -1,6 +1,7 @@
 import sys
 import time
 import random
+import numpy as np
 import matplotlib.pyplot as plt
 
 """
@@ -47,8 +48,11 @@ for n in sizes:
     end_time = time.time()
     times.append(end_time - start_time)
 
+time_fit = np.polyfit(sizes, times, 2)
+
 plt.figure(figsize=(10, 5))
-plt.plot(sizes, times, 'o-', label='Measured Time')
+plt.scatter(sizes, times, label='Measured Time')
+plt.plot(sizes, np.polyval(time_fit, sizes), 'b--', label=f'Fit: {time_fit[0]:.2e}n^2')
 plt.xlabel('Input Size (n)')
 plt.ylabel('Execution Time (seconds)')
 plt.title('Quicksort Worst-Case Complexity')
