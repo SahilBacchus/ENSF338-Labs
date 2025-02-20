@@ -3,6 +3,8 @@ import json
 import matplotlib.pyplot as plt
 import timeit
 
+
+
 """
 Comments on the graph: The initial midpoint clearly does
 affect the Binary Search Performance of the list as 
@@ -11,10 +13,10 @@ can locate it.
 
 Note: Use this to change to the proper directory if it doesn't
       automatically make the directory lab03
-
 import os
 print("Current Working Directory:", os.getcwd())
-os.chdir('C:/ENSF338/ENSF338-Labs')"""
+script_dir = os.path.dirname(os.path.abspath(__file__))
+os.chdir(script_dir)"""
 
 sys.setrecursionlimit(20000)
 
