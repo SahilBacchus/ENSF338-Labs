@@ -3,7 +3,20 @@ import json
 import matplotlib.pyplot as plt
 import timeit
 
-sys.setrecursionlimit(2000)
+"""
+Comments on the graph: The initial midpoint clearly does
+affect the Binary Search Performance of the list as 
+the closer the intial point is to the target the faster it
+can locate it.
+
+Note: Use this to change to the proper directory if it doesn't
+      automatically make the directory lab03
+
+import os
+print("Current Working Directory:", os.getcwd())
+os.chdir('C:/ENSF338/ENSF338-Labs')"""
+
+sys.setrecursionlimit(20000)
 
 with open('lab03/lab_data/ex7data.json', 'r', encoding='UTF-8') as infile:
     data = json.load(infile)

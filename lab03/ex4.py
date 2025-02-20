@@ -1,0 +1,58 @@
+import sys
+import time
+import random
+import matplotlib.pyplot as plt
+
+"""
+Note: Use this to change to the proper directory if it doesn't
+      automatically make the directory lab03
+
+import os
+print("Current Working Directory:", os.getcwd())
+os.chdir('C:/ENSF338/ENSF338-Labs')"""
+
+sys.setrecursionlimit(20000)
+
+
+def quicksort(arr, low, high):
+    if low < high:
+        pivot_index = partition(arr, low, high)
+        quicksort(arr, low, pivot_index)
+        quicksort(arr, pivot_index + 1, high)
+
+def partition(arr, low, high): 
+    pivot = arr[low] 
+    left = low + 1 
+    right = high 
+    done = False 
+    while not done: 
+        while left <= right and arr[left] <= pivot: 
+            left = left + 1 
+        while arr[right] >= pivot and right >=left: 
+            right = right -1 
+        if right <left: 
+            done= True 
+        else: 
+            arr[left], arr[right] = arr[right], arr[left] 
+    arr[low], arr[right] = arr[right], arr[low] 
+    return right
+
+sizes = [10, 50, 100, 200, 500, 1000, 2000, 5000]
+times = []
+
+for n in sizes:
+    worst_case_input = list(range(n, 0, -1))#Creates list of deincrementing values
+    start_time = time.time()
+    quicksort(worst_case_input, 0, len(worst_case_input)-1)
+    end_time = time.time()
+    times.append(end_time - start_time)
+
+plt.figure(figsize=(10, 5))
+plt.plot(sizes, times, 'o-', label='Measured Time')
+plt.xlabel('Input Size (n)')
+plt.ylabel('Execution Time (seconds)')
+plt.title('Quicksort Worst-Case Complexity')
+plt.legend()
+plt.show()
+#plt.savefig('lab03/Comparison_Swaps.png')
+
