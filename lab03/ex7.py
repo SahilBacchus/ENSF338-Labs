@@ -20,10 +20,10 @@ os.chdir(script_dir)"""
 
 sys.setrecursionlimit(20000)
 
-with open('lab_data/ex7data.json', 'r', encoding='UTF-8') as infile:
+with open('lab03/lab_data/ex7data.json', 'r', encoding='UTF-8') as infile:
     data = json.load(infile)
 
-with open('lab_data/ex7tasks.json', 'r', encoding='UTF-8') as infile:
+with open('lab03/lab_data/ex7tasks.json', 'r', encoding='UTF-8') as infile:
     search_tasks = json.load(infile)
 
 def binarySearchConfig(arr, first, last, key, mid):
@@ -66,5 +66,5 @@ plt.ylabel('Best Initial Midpoint')
 plt.title('Effect of Initial Midpoint on Binary Search Performance')
 plt.grid(True)
 plt.legend()
-#plt.savefig('output_7.png')
+plt.savefig('lab03/output.7.png')
 plt.show()

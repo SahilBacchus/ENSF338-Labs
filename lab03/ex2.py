@@ -133,5 +133,5 @@ for case in cases:
     plt.ylabel('Time (seconds)')
     plt.legend()
     plt.grid(True)
-    plt.savefig(f'{case}_case_performance.png')
+    plt.savefig(f'lab03/output.2_{case}.png')
     plt.show()

@@ -58,6 +58,6 @@ plt.xlabel('Input Size (n)')
 plt.ylabel('Execution Time (seconds)')
 plt.title('Quicksort Worst-Case Complexity')
 plt.legend()
+plt.savefig('lab03/output.4.png')
 plt.show()
-#plt.savefig('Quicksort.png')
 
