@@ -117,6 +117,7 @@ plt.title('Linear Search vs. Quicksort then Binary Sort  Times - Worst Case')
 plt.legend()
 plt.grid(True)
 plt.savefig('lab03/output.6_worst.png')
+plt.show()
 
 
 '''

@@ -124,7 +124,7 @@ plt.title('Insertion Sort vs. Binary Insertion Sort  Times')
 plt.legend()
 plt.grid(True)
 plt.savefig('lab03/output.5.png')
-
+plt.show()
 
 
 
