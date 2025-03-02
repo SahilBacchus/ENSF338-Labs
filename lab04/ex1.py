@@ -1,7 +1,8 @@
 import time
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.interpolate import interp1d as inter
+from scipy.optimize import curve_fit
+
 
 """ 
 Answer to Question 4: Binary Search for a Linked List unlike an array,
@@ -13,7 +14,6 @@ to search for the midpoint in order to use binary search. Therefore,
 to me it's logical to conclude that the time complexity of binary 
 search on a linked list is O(nlog(n)).
 """
-
 
 class Node:
     def __init__(self, value):
@@ -95,22 +95,37 @@ def measure_performance():
         
         target = size // 2
         
+        # Measure time for Linked List binary search
         start = time.time()
         linked_list.binary_search(target)
         linked_list_times.append(time.time() - start)
         
+        # Measure time for Array binary search
         start = time.time()
         array.binary_search(target)
         array_times.append(time.time() - start)
     
-    x_new = np.linspace(min(sizes), max(sizes), 300)
-    linked_list_interp = inter(sizes, linked_list_times, kind='quadratic')
-    array_interp = inter(sizes, array_times, kind='linear')
-    
-    plt.plot(sizes, linked_list_times, 'o')
-    plt.plot(sizes, array_times, 'o')
-    plt.plot(x_new, linked_list_interp(x_new), '-', label="Linked List (Interpolated)")
-    plt.plot(x_new, array_interp(x_new), '-', label="Array (Interpolated)")
+    # Fit functions for interpolation
+    def linear_func(x, a, b):
+        return a * x + b
+
+    def log_linear_func(x, a, b):    #Note: Due to it being a log linear function its curve is almost unnoticable due
+        #return a*x**2 + b*np.log(x) #the small y-values produced
+        return a*x + b*np.log(x) 
+
+    # Fit the data to the functions
+    popt_ls, _ = curve_fit(linear_func, sizes, array_times)  # Linear fit for array times
+    popt_bs, _ = curve_fit(log_linear_func, sizes, linked_list_times)  # Log-linear fit for linked list times
+
+    # Plot the raw timing data
+    plt.scatter(sizes, array_times, color='blue', label='Array Data')
+    plt.scatter(sizes, linked_list_times, color='red', label='Linked List Data')
+
+    # Plot the fitted curves
+    plt.plot(sizes, linear_func(np.array(sizes), *popt_ls), 'b--', label=f"Linear line: {popt_ls[0]:.2e}*n + {popt_ls[1]:.2e}")
+    plt.plot(sizes, log_linear_func(np.array(sizes), *popt_bs), 'r--', label=f"Log Linear curve: {popt_bs[0]:.2e}*nlog(n) + {popt_bs[1]:.2e}")
+
+    # Set labels and title
     plt.xlabel("Input Size")
     plt.ylabel("Time (seconds)")
     plt.legend()
