@@ -115,7 +115,7 @@ def measure_performance():
 
     # Fit the data to the functions
     popt_ls, _ = curve_fit(linear_func, sizes, array_times)  # Linear fit for array times
-    popt_bs, _ = curve_fit(linear_func, sizes, linked_list_times)  # Log-linear fit for linked list times
+    popt_bs, _ = curve_fit(linear_func, sizes, linked_list_times)  #Linear fit for linked list times
 
     # Plot the raw timing data
     plt.scatter(sizes, array_times, color='blue', label='Array Data')
