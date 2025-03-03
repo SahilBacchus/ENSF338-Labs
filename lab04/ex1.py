@@ -12,7 +12,7 @@ the search as you have to search for the mid point in order to use
 binary search. In my opinion it is almost like using linear search
 to search for the midpoint in order to use binary search. Therefore, 
 to me it's logical to conclude that the time complexity of binary 
-search on a linked list is O(nlog(n)).
+search on a linked list is n + log(n) which simplifies to O(n).
 """
 
 class Node:
@@ -109,13 +109,13 @@ def measure_performance():
     def linear_func(x, a, b):
         return a * x + b
 
-    def log_linear_func(x, a, b):    #Note: Due to it being a log linear function its curve is almost unnoticable due
+    #def log_linear_func(x, a, b):    #Note: Due to it being a log linear function its curve is almost unnoticable due
         #return a*x**2 + b*np.log(x) #the small y-values produced
-        return a*x + b*np.log(x) 
+        #return a*x + b*np.log(x) 
 
     # Fit the data to the functions
     popt_ls, _ = curve_fit(linear_func, sizes, array_times)  # Linear fit for array times
-    popt_bs, _ = curve_fit(log_linear_func, sizes, linked_list_times)  # Log-linear fit for linked list times
+    popt_bs, _ = curve_fit(linear_func, sizes, linked_list_times)  # Log-linear fit for linked list times
 
     # Plot the raw timing data
     plt.scatter(sizes, array_times, color='blue', label='Array Data')
@@ -123,7 +123,7 @@ def measure_performance():
 
     # Plot the fitted curves
     plt.plot(sizes, linear_func(np.array(sizes), *popt_ls), 'b--', label=f"Linear line: {popt_ls[0]:.2e}*n + {popt_ls[1]:.2e}")
-    plt.plot(sizes, log_linear_func(np.array(sizes), *popt_bs), 'r--', label=f"Log Linear curve: {popt_bs[0]:.2e}*nlog(n) + {popt_bs[1]:.2e}")
+    plt.plot(sizes, linear_func(np.array(sizes), *popt_bs), 'r--', label=f"Linear Line: {popt_bs[0]:.2e}*n + {popt_bs[1]:.2e}")
 
     # Set labels and title
     plt.xlabel("Input Size")
