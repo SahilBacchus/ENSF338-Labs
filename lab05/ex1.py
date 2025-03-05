@@ -16,6 +16,12 @@ class Stack:
 
      def size(self):
          return len(self.items)
+     
+     def calculate(self):
+         calc = self.peek().split(" ")
+         ans = f"{calc[1]} {calc[0]} {calc[2]}"
+         return eval(ans)
+         
     
 def implementStack():
 
@@ -32,15 +38,22 @@ python ex1.py '(* (+ 1 5) 2)'
 python ex1.py '(- (* 1 3) (/ 6 (+ 1 2)))'
 1
 
-"""
-userInput = str(input("Enter expression: "))
-userInputSplit = userInput.split(" ")
-
-for i in userInputSplit:
-    print(f'{i}')
 
 s = Stack()
+userInput = str(input("Enter expression: "))
+userInputSplit = userInput.split("(")
+print(userInputSplit)
+
+
+for i in userInputSplit:
+    print(userInputSplit)
+
 s.push(7)
 s.push(userInput)
 
-print(s.peek())
+print(s.peek())"""
+
+s = Stack()
+s.push("+ 1 2")
+print(type(s.peek()))
+print(s.calculate())
