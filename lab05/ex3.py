@@ -4,7 +4,7 @@ import timeit
 import matplotlib.pyplot as plt
 import array
 
-# 1. implemented a stack which uses Pythom arrays
+# 1. implemented a stack which uses Python arrays
 class ArrayStack:
     def __init__(self):
         # initialize signed integer array to stack attribute
