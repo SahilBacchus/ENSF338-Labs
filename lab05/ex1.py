@@ -1,59 +1,82 @@
+import sys
+
+
 class Stack:
      def __init__(self):
          self.items = []
 
+
      def isEmpty(self):
          return self.items == []
+
 
      def push(self, item):
          self.items.append(item)
 
+
      def pop(self):
          return self.items.pop()
+
 
      def peek(self):
          return self.items[len(self.items)-1]
 
+
      def size(self):
          return len(self.items)
      
-     def calculate(self):
-         calc = self.peek().split(" ")
-         ans = f"{calc[1]} {calc[0]} {calc[2]}"
-         return eval(ans)
-         
-    
-def implementStack():
+def evaluate_expression(expression):
 
 
-    return 0
-"""
-Example: CLI
-python ex1.py '(+ 1 5)'
-6
+    stack = Stack()
+    tokens = expression.replace("(", " ( ").replace(")", " ) ").split()
+   
+    for token in tokens:
+        if token == ')':  #( indicates end of a expression
+            args = []
+           
+            # Pop elements until '(' is encountered
+            while stack.peek() not in ('(', None):
+                args.append(stack.pop())
+            stack.pop()  # Remove '('
+           
+            # Pop the operator separately
+            operator = args.pop()
+           
+            arg1 = int(args.pop())
+            arg2 = int(args.pop())
+           
+            # Perform the operation using if/elif statements
+            if operator in ('+', '-', '*', '/'):
+                if operator == '+':
+                    result = arg1 + arg2
+                elif operator == '-':
+                    result = arg1 - arg2
+                elif operator == '*':
+                    result = arg1 * arg2
+                else:
+                    result = arg1 // arg2
+               
+                # Push the result back onto the stack
+                stack.push(str(result))
+        else:
+            # Push numbers, operators, and '(' onto the stack
+            stack.push(token)
+   
+    # The final result should be the last remaining element on the stack
+    return int(stack.pop())
 
-python ex1.py '(* (+ 1 5) 2)'
-12
-
-python ex1.py '(- (* 1 3) (/ 6 (+ 1 2)))'
-1
 
 
-s = Stack()
-userInput = str(input("Enter expression: "))
-userInputSplit = userInput.split("(")
-print(userInputSplit)
+
+if __name__ == "__main__":
 
 
-for i in userInputSplit:
-    print(userInputSplit)
+    expression = sys.argv[1]
+    result = evaluate_expression(expression)
+    print(result)
 
-s.push(7)
-s.push(userInput)
 
-print(s.peek())"""
 
-s = Stack()
-s.push("+ 1 2")
-print(type(s.peek()))
-print(s.calculate())
+
+
