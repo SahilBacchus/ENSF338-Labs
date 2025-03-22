@@ -1,5 +1,6 @@
 import timeit
 import random
+import matplotlib.pyplot as plt
 
 ##################################################################################
 #-- 1. Implement a binary search tree with insertion and search operations as
@@ -9,20 +10,31 @@ import random
 ###################################################################################
 
 class Node:
-    def __init__(self, data, parent=None, left=None, right=None, balance = None):
+    def __init__(self, data, parent=None, left=None, right=None):
         self.parent = parent
         self.data = data
         self.left = left
         self.right = right
-        self.balance = balance
+        self.height = 1
 
+# Function to calculate the height of a node
+def get_height(node):
+    if node is None:
+        return 0
+    return node.height
 
+# Function to calculate the balance factor of a node
+def get_balance(node):
+    if node is None:
+        return 0
+    return get_height(node.left) - get_height(node.right)
 
-def findBalance(data):
-    return data.parent
+# Function to update the height of a node
+def update_height(node):
+    if node is not None:
+        node.height = 1 + max(get_height(node.left), get_height(node.right))
 
-
-
+# Insert a node into the BST
 def insert(data, root=None):
     current = root
     parent = None
@@ -34,7 +46,7 @@ def insert(data, root=None):
         else:
             current = current.right
 
-    newnode = Node(data, parent)    
+    newnode = Node(data, parent)
     if root is None:
         root = newnode
     elif data <= parent.data:
@@ -42,9 +54,15 @@ def insert(data, root=None):
     else:
         parent.right = newnode
 
+    # Update heights and balance factors for all ancestors
+    current = newnode
+    while current is not None:
+        update_height(current)
+        current = current.parent
+
     return newnode
 
-
+# Search for a node in the BST
 def search(data, root):
     current = root
     while current is not None:
@@ -56,15 +74,70 @@ def search(data, root):
             current = current.right
     return None
 
-def build_bst_from_sorted_array(arr):
+# Function to measure the balance of the entire tree
+def measure_balance(root):
+    balances = []
+    _measure_balance(root, balances)
+    return balances
+
+def _measure_balance(node, balances):
+    if node is not None:
+        balance = get_balance(node)
+        balances.append(abs(balance))
+        _measure_balance(node.left, balances)
+        _measure_balance(node.right, balances)
+
+# Function to generate 1000 random search tasks
+def generate_search_tasks():
+    numbers = list(range(1, 1001))
+    tasks = []
+    for _ in range(1000):
+        random.shuffle(numbers)
+        tasks.append(numbers.copy())
+    return tasks
+
+# Function to measure average search time and largest absolute balance
+def measure_performance(root, tasks):
+    search_times = []
+    largest_balances = []
+
+    for task in tasks:
+        start_time = timeit.default_timer()
+        for number in task:
+            search(number, root)
+        end_time = timeit.default_timer()
+
+        avg_search_time = (end_time - start_time) / 1000
+        search_times.append(avg_search_time)
+
+        largest_balance = max(measure_balance(root))
+        largest_balances.append(largest_balance)
+
+    return search_times, largest_balances
+
+# Function to plot the scatterplot
+def plot_scatter(balances, search_times):
+    plt.scatter(balances, search_times, alpha=0.5)
+    plt.xlabel("Largest Absolute Balance")
+    plt.ylabel("Average Search Time (seconds)")
+    plt.title("BST Performance vs Balance")
+    plt.show()
+
+# Main function for Exercise #1
+def main():
+    # Create a BST and insert random data
     root = None
-    for num in arr:
-        root = insert(num, root)
-    return root
+    for _ in range(1000):
+        root = insert(random.randint(1, 1000), root)
 
+    # Generate search tasks
+    tasks = generate_search_tasks()
 
-sorted_array = list(range(10000))
+    # Measure performance
+    search_times, largest_balances = measure_performance(root, tasks)
 
-bst_root = build_bst_from_sorted_array(sorted_array)
+    # Plot results
+    plot_scatter(largest_balances, search_times)
 
-print(findBalance(bst_root))
+if __name__ == "__main__":
+    main()
