@@ -53,7 +53,7 @@ class AVLTree:
         if balance > 1 or balance < -1:
             pivot = node
             print(f"Pivot detected at node with data: {pivot.data}")
-            if (balance > 1 and data <= node.left.data) or (balance < -1 and data > node.right.data):
+            if (balance > 1 and data > node.left.data) or (balance < -1 and data < node.right.data):
                 print("Case #2: A pivot exists, and a node was added to the shorter subtree")
             else:
                 print("Case #3 not supported")  # Case 3 is not implemented
@@ -78,8 +78,8 @@ def test_case_2():
     avl.insert(10)
     avl.insert(5)
     avl.insert(15)
-    avl.insert(3)
-    avl.insert(2)
+    avl.insert(20)  # Right-heavy pivot at 10
+    avl.insert(17)  
     print("Test Case 2 completed.\n")
 
 # Test Case 3: Unsupported case
